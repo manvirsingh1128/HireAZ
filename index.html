@@ -9,6 +9,54 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-logo {
+            height: 60px;
+            margin-bottom: 30px;
+        }
+
+        .loading-logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: #111827;
+            border-radius: 2px;
+            animation: loading 2.5s ease-in-out forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            70% { width: 85%; }
+            100% { width: 100%; }
+        }
+
         /* CSS Reset e variabili */
         :root {
             --text-dark: #111827;
@@ -38,10 +86,16 @@
             overflow-x: hidden;
             min-height: 100vh;
             font-weight: 400;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 2.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         /* Stile per elementi cliccabili */
-        a, button, .cta-header, .cta-button, .faq-question, .submit-btn, .testimonial-cta, .final-cta-button {
+        a, button, .cta-header, .cta-button, .faq-question, .submit-btn, .testimonial-cta, .final-cta-button, .waitlist-btn {
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23111827" opacity="0.9"/><circle cx="12" cy="12" r="5" fill="white"/></svg>') 12 12, pointer !important;
         }
 
@@ -650,25 +704,6 @@
             opacity: 1;
         }
 
-        /* Hover effect - diventa bianco con bordo nero */
-        .unified-cta-button::after {
-            content: '';
-            position: absolute;
-            top: 1px;
-            left: 1px;
-            right: 1px;
-            bottom: 1px;
-            background: white;
-            border-radius: 14px;
-            z-index: -2;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .unified-cta-button:hover::after {
-            opacity: 0;
-        }
-
         /* Pulsante "pieno" quando non in hover */
         .unified-cta-button:not(:hover) {
             background: var(--accent-black);
@@ -742,6 +777,351 @@
 
         .footer-links a:hover {
             color: var(--accent-black);
+        }
+
+        /* New Waitlist Flow */
+        .waitlist-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .waitlist-step {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .waitlist-step.active {
+            display: block;
+        }
+
+        .waitlist-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .waitlist-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .waitlist-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .waitlist-subtitle {
+            font-size: 18px;
+            color: #9CA3AF;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .waitlist-time {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .waitlist-time i {
+            font-size: 16px;
+        }
+
+        .waitlist-continue {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .waitlist-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Question Steps */
+        .waitlist-question {
+            text-align: left;
+        }
+
+        .waitlist-question .waitlist-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+        }
+
+        .question-group {
+            margin-bottom: 30px;
+        }
+
+        .question-label {
+            display: block;
+            font-size: 18px;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .option-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .option-item.selected {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        .option-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .option-item.selected .option-checkbox {
+            background: white;
+            border-color: white;
+        }
+
+        .option-item.selected .option-checkbox::after {
+            content: '✓';
+            color: black;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .option-text {
+            flex: 1;
+            color: white;
+            font-size: 16px;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .text-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-hint {
+            font-size: 14px;
+            color: #9CA3AF;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .waitlist-back {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-right: 15px;
+        }
+
+        .waitlist-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .waitlist-next {
+            background: white;
+            color: black;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .waitlist-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        .waitlist-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .waitlist-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        /* Email Step */
+        .waitlist-email {
+            text-align: center;
+        }
+
+        .privacy-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .privacy-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .privacy-checkbox.checked {
+            background: white;
+            border-color: white;
+        }
+
+        .privacy-checkbox.checked::after {
+            content: '✓';
+            color: black;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .privacy-text {
+            color: #9CA3AF;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .privacy-text a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .privacy-text a:hover {
+            text-decoration: underline;
+        }
+
+        .waitlist-submit {
+            width: 100%;
+            padding: 18px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .waitlist-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Success Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4000;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #f00;
+            top: -10px;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
         }
 
         /* Modals for Privacy, Terms, Contacts */
@@ -879,131 +1259,6 @@
             text-decoration: underline;
         }
 
-        /* Waitlist Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(6px);
-        }
-
-        .modal-content {
-            background: var(--bg-white);
-            border-radius: 16px;
-            padding: 48px 40px;
-            width: 90%;
-            max-width: 480px;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--text-light-gray);
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .close-modal:hover {
-            background: rgba(0, 0, 0, 0.05);
-            color: var(--text-dark);
-        }
-
-        .modal-title {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-
-        .modal-text {
-            color: var(--text-gray);
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-dark);
-            font-size: 15px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            background: var(--bg-white);
-            font-size: 16px;
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-black);
-            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent-black);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        /* Success message */
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 32px 24px;
-            border-radius: 12px;
-            margin-top: 20px;
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-        }
-
-        .success-message i {
-            font-size: 48px;
-            margin-bottom: 16px;
-            color: var(--accent-black);
-        }
-
         /* Responsive Design */
         @media (max-width: 1024px) {
             .testimonial-card {
@@ -1027,6 +1282,14 @@
             }
             
             .policy-title {
+                font-size: 28px;
+            }
+            
+            .waitlist-step {
+                padding: 30px 20px;
+            }
+            
+            .waitlist-title {
                 font-size: 28px;
             }
         }
@@ -1080,6 +1343,22 @@
                 flex-direction: column;
                 gap: 15px;
             }
+            
+            .waitlist-title {
+                font-size: 24px;
+            }
+            
+            .waitlist-subtitle {
+                font-size: 16px;
+            }
+            
+            .question-label {
+                font-size: 16px;
+            }
+            
+            .option-text {
+                font-size: 14px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1125,10 +1404,34 @@
             .policy-title {
                 font-size: 22px;
             }
+            
+            .waitlist-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .waitlist-back,
+            .waitlist-next {
+                width: 100%;
+                margin: 0;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">
+            <img src="https://i.postimg.cc/6pZg61cS/transparent-Photoroom-(21).png" alt="Logo" />
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti-container"></div>
+
     <!-- Header -->
     <header>
         <div class="logo">
@@ -1152,7 +1455,7 @@
                 
                 <div class="cta-section">
                     <p class="social-proof">Join <span class="waitlist-number">158+</span> others on the waitlist.</p>
-                    <button class="cta-button" id="open-modal">Iscriviti ora</button>
+                    <button class="cta-button" id="open-waitlist">Iscriviti ora</button>
                 </div>
             </div>
         </div>
@@ -1527,44 +1830,154 @@
         </div>
     </footer>
 
-    <!-- Waitlist Modal -->
-    <div class="modal" id="waitlist-modal">
-        <div class="modal-content">
-            <button class="close-modal" id="close-modal">&times;</button>
-            <h2 class="modal-title">Unisciti alla Waitlist</h2>
-            <p class="modal-text">Ricevi accesso prioritario e uno sconto speciale al lancio.</p>
+    <!-- New Waitlist Flow Overlay -->
+    <div class="waitlist-overlay" id="waitlist-overlay">
+        <!-- Step 1: Intro -->
+        <div class="waitlist-step active" id="step-intro">
+            <div class="waitlist-image">
+                <img src="https://i.postimg.cc/13bL6QTY/transparent-Photoroom-(27).png" alt="HireAZ Waitlist" />
+            </div>
+            <h2 class="waitlist-title">Unisciti alla lista d'attesa di HireAZ</h2>
+            <p class="waitlist-subtitle">per ottenere funzionalità aggiuntive gratuitamente.</p>
             
-            <form id="waitlist-form">
-                <div class="form-group">
-                    <label for="name">Nome e Cognome</label>
-                    <input type="text" id="name" class="form-control" placeholder="Il tuo nome" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" placeholder="tua@email.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="role">Ruolo lavorativo</label>
-                    <select id="role" class="form-control" required>
-                        <option value="" disabled selected>Seleziona il tuo ruolo</option>
-                        <option value="student">Studente</option>
-                        <option value="junior">Junior Developer</option>
-                        <option value="mid">Mid-Level Developer</option>
-                        <option value="senior">Senior Developer</option>
-                        <option value="manager">Manager</option>
-                        <option value="other">Altro</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="submit-btn">Iscriviti alla Waitlist</button>
-            </form>
+            <div class="waitlist-time">
+                <i class="fas fa-clock"></i>
+                <span>Richiede 30 secondi</span>
+            </div>
             
-            <div class="success-message" id="success-message">
-                <i class="fas fa-check-circle"></i>
-                <h3>Iscrizione completata!</h3>
-                <p>Ti abbiamo aggiunto alla waitlist. Riceverai presto ulteriori informazioni.</p>
+            <button class="waitlist-continue" id="continue-intro">Continua</button>
+        </div>
+
+        <!-- Step 2: Question 1 -->
+        <div class="waitlist-step waitlist-question" id="step-q1">
+            <h2 class="waitlist-title">Qual è la tua situazione attuale?</h2>
+            
+            <div class="question-group">
+                <div class="option-list">
+                    <div class="option-item" data-value="cercando">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Sto cercando lavoro attivamente</div>
+                    </div>
+                    <div class="option-item" data-value="cambiare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Voglio cambiare lavoro presto</div>
+                    </div>
+                    <div class="option-item" data-value="preparare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Mi preparo per il futuro</div>
+                    </div>
+                    <div class="option-item" data-value="aiutare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Aiuto altri a prepararsi (HR/coach)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q1">Indietro</button>
+                <button class="waitlist-next" id="next-q1" disabled>Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Question 2 -->
+        <div class="waitlist-step waitlist-question" id="step-q2">
+            <h2 class="waitlist-title">Qual è la tua sfida più grande nei colloqui?</h2>
+            
+            <div class="question-group">
+                <div class="option-list">
+                    <div class="option-item" data-value="domande">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Non so come rispondere alle domande difficili</div>
+                    </div>
+                    <div class="option-item" data-value="ansia">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Mi blocco per l'ansia</div>
+                    </div>
+                    <div class="option-item" data-value="presentare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Non so presentare i miei punti di forza</div>
+                    </div>
+                    <div class="option-item" data-value="pratica">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Non ho mai abbastanza pratica</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q2">Indietro</button>
+                <button class="waitlist-next" id="next-q2" disabled>Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Question 3 -->
+        <div class="waitlist-step waitlist-question" id="step-q3">
+            <h2 class="waitlist-title">In che lingua vorresti allenarti?</h2>
+            
+            <div class="question-group">
+                <div class="option-list">
+                    <div class="option-item" data-value="italiano">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Italiano</div>
+                    </div>
+                    <div class="option-item" data-value="inglese">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Inglese</div>
+                    </div>
+                    <div class="option-item" data-value="entrambe">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Entrambe</div>
+                    </div>
+                    <div class="option-item" data-value="altra">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Altra (specifica):</div>
+                    </div>
+                </div>
+                <input type="text" class="text-input" id="altra-lingua" placeholder="Scrivi qui la tua lingua..." style="display: none; margin-top: 15px;">
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q3">Indietro</button>
+                <button class="waitlist-next" id="next-q3" disabled>Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Question 4 -->
+        <div class="waitlist-step waitlist-question" id="step-q4">
+            <h2 class="waitlist-title">Per quale lavoro/settore ti stai preparando?</h2>
+            
+            <div class="question-group">
+                <label class="question-label">(opzionale)</label>
+                <input type="text" class="text-input" id="settore-input" placeholder="Es: Marketing Manager, Sviluppatore, Consulente...">
+                <span class="input-hint">Puoi anche lasciare questo campo vuoto</span>
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q4">Indietro</button>
+                <button class="waitlist-next" id="next-q4">Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 6: Email -->
+        <div class="waitlist-step waitlist-email" id="step-email">
+            <h2 class="waitlist-title">Ultimo passo!</h2>
+            <p class="waitlist-subtitle">Inserisci la tua email per entrare nella lista d'attesa</p>
+            
+            <div class="question-group">
+                <input type="email" class="text-input" id="email-input" placeholder="tua@email.com" style="margin-bottom: 20px;">
+            </div>
+            
+            <div class="privacy-check">
+                <div class="privacy-checkbox" id="privacy-checkbox"></div>
+                <div class="privacy-text">
+                    Accetto la <a href="#" id="privacy-link-modal">Privacy Policy</a> e i <a href="#" id="terms-link-modal">Termini di Servizio</a>. I miei dati saranno trattati in conformità al GDPR.
+                </div>
+            </div>
+            
+            <button class="waitlist-submit" id="submit-waitlist" disabled>Entra in lista</button>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-email">Indietro</button>
             </div>
         </div>
     </div>
@@ -1787,95 +2200,278 @@
     </div>
 
     <script>
-        // Gestione del modal waitlist
-        const modal = document.getElementById('waitlist-modal');
-        const openModalBtn = document.getElementById('open-modal');
-        const closeModalBtn = document.getElementById('close-modal');
-        const headerCta = document.getElementById('header-cta');
-        const waitlistForm = document.getElementById('waitlist-form');
-        const successMessage = document.getElementById('success-message');
-        const unifiedCtaButton = document.getElementById('unified-cta-button');
-        const footerCtaButton = document.getElementById('footer-cta-button');
-        
-        // Apri il modal waitlist
-        function openModal() {
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        // Chiudi il modal waitlist
-        function closeModal() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Apri modal al click sui pulsanti
-        openModalBtn.addEventListener('click', openModal);
-        headerCta.addEventListener('click', function(e) {
-            e.preventDefault();
-            openModal();
-        });
-        
-        // Apri modal per il CTA unificato
-        unifiedCtaButton.addEventListener('click', openModal);
-        
-        // Apri modal per il CTA footer
-        footerCtaButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            openModal();
-        });
-        
-        // Chiudi modal
-        closeModalBtn.addEventListener('click', closeModal);
-        
-        // Chiudi modal cliccando fuori dal contenuto
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeModal();
+        // Loading Screen
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+            }, 500);
+        }, 2500);
+
+        // Waitlist Data
+        let waitlistData = {
+            situazione: '',
+            sfida: '',
+            lingua: '',
+            altraLingua: '',
+            settore: '',
+            email: ''
+        };
+
+        // Waitlist Navigation
+        const waitlistOverlay = document.getElementById('waitlist-overlay');
+        const steps = document.querySelectorAll('.waitlist-step');
+        let currentStep = 0;
+
+        // Open Waitlist
+        const openWaitlistButtons = [
+            document.getElementById('open-waitlist'),
+            document.getElementById('header-cta'),
+            document.getElementById('unified-cta-button'),
+            document.getElementById('footer-cta-button')
+        ];
+
+        openWaitlistButtons.forEach(button => {
+            if (button) {
+                button.addEventListener('click', (e) => {
+                    if (button.tagName === 'A') e.preventDefault();
+                    waitlistOverlay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    resetWaitlist();
+                });
             }
         });
-        
-        // Gestione del form waitlist
-        waitlistForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simulazione invio form
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                role: document.getElementById('role').value
+
+        // Reset Waitlist
+        function resetWaitlist() {
+            currentStep = 0;
+            waitlistData = {
+                situazione: '',
+                sfida: '',
+                lingua: '',
+                altraLingua: '',
+                settore: '',
+                email: ''
             };
             
-            console.log('Dati inviati:', formData);
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if (index === 0) step.classList.add('active');
+            });
             
-            // Nascondi il form e mostra messaggio di successo
-            waitlistForm.style.display = 'none';
-            successMessage.style.display = 'block';
+            // Reset all selections
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
             
-            // Chiudi il modal dopo 3 secondi
+            document.getElementById('altra-lingua').style.display = 'none';
+            document.getElementById('email-input').value = '';
+            document.getElementById('privacy-checkbox').classList.remove('checked');
+            document.getElementById('submit-waitlist').disabled = true;
+        }
+
+        // Step Navigation
+        function showStep(stepIndex) {
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if (index === stepIndex) {
+                    step.classList.add('active');
+                }
+            });
+            currentStep = stepIndex;
+        }
+
+        // Intro Step
+        document.getElementById('continue-intro').addEventListener('click', () => {
+            showStep(1);
+        });
+
+        // Question 1
+        const q1Options = document.querySelectorAll('#step-q1 .option-item');
+        const nextQ1 = document.getElementById('next-q1');
+        const backQ1 = document.getElementById('back-q1');
+
+        q1Options.forEach(option => {
+            option.addEventListener('click', () => {
+                q1Options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                waitlistData.situazione = option.dataset.value;
+                nextQ1.disabled = false;
+            });
+        });
+
+        nextQ1.addEventListener('click', () => {
+            if (waitlistData.situazione) showStep(2);
+        });
+
+        backQ1.addEventListener('click', () => {
+            showStep(0);
+        });
+
+        // Question 2
+        const q2Options = document.querySelectorAll('#step-q2 .option-item');
+        const nextQ2 = document.getElementById('next-q2');
+        const backQ2 = document.getElementById('back-q2');
+
+        q2Options.forEach(option => {
+            option.addEventListener('click', () => {
+                q2Options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                waitlistData.sfida = option.dataset.value;
+                nextQ2.disabled = false;
+            });
+        });
+
+        nextQ2.addEventListener('click', () => {
+            if (waitlistData.sfida) showStep(3);
+        });
+
+        backQ2.addEventListener('click', () => {
+            showStep(1);
+        });
+
+        // Question 3
+        const q3Options = document.querySelectorAll('#step-q3 .option-item');
+        const nextQ3 = document.getElementById('next-q3');
+        const backQ3 = document.getElementById('back-q3');
+        const altraInput = document.getElementById('altra-lingua');
+
+        q3Options.forEach(option => {
+            option.addEventListener('click', () => {
+                q3Options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                waitlistData.lingua = option.dataset.value;
+                
+                if (option.dataset.value === 'altra') {
+                    altraInput.style.display = 'block';
+                    waitlistData.altraLingua = '';
+                    nextQ3.disabled = true;
+                } else {
+                    altraInput.style.display = 'none';
+                    waitlistData.altraLingua = '';
+                    nextQ3.disabled = false;
+                }
+            });
+        });
+
+        altraInput.addEventListener('input', () => {
+            waitlistData.altraLingua = altraInput.value.trim();
+            nextQ3.disabled = !waitlistData.altraLingua;
+        });
+
+        nextQ3.addEventListener('click', () => {
+            if (waitlistData.lingua) showStep(4);
+        });
+
+        backQ3.addEventListener('click', () => {
+            showStep(2);
+        });
+
+        // Question 4
+        const settoreInput = document.getElementById('settore-input');
+        const nextQ4 = document.getElementById('next-q4');
+        const backQ4 = document.getElementById('back-q4');
+
+        settoreInput.addEventListener('input', () => {
+            waitlistData.settore = settoreInput.value.trim();
+        });
+
+        nextQ4.addEventListener('click', () => {
+            showStep(5);
+        });
+
+        backQ4.addEventListener('click', () => {
+            showStep(3);
+        });
+
+        // Email Step
+        const emailInput = document.getElementById('email-input');
+        const privacyCheckbox = document.getElementById('privacy-checkbox');
+        const submitButton = document.getElementById('submit-waitlist');
+        const backEmail = document.getElementById('back-email');
+
+        emailInput.addEventListener('input', validateEmailStep);
+        privacyCheckbox.addEventListener('click', () => {
+            privacyCheckbox.classList.toggle('checked');
+            validateEmailStep();
+        });
+
+        function validateEmailStep() {
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+            const privacyChecked = privacyCheckbox.classList.contains('checked');
+            submitButton.disabled = !(emailValid && privacyChecked);
+        }
+
+        submitButton.addEventListener('click', () => {
+            if (submitButton.disabled) return;
+            
+            waitlistData.email = emailInput.value.trim();
+            
+            // Simulate API call
+            console.log('Waitlist data submitted:', waitlistData);
+            
+            // Show confetti
+            showConfetti();
+            
+            // Close waitlist after 3 seconds
             setTimeout(() => {
-                closeModal();
-                waitlistForm.style.display = 'block';
-                successMessage.style.display = 'none';
-                waitlistForm.reset();
+                waitlistOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Show success message (you can add a toast notification here)
+                alert('Grazie! Sei stato aggiunto alla lista d\'attesa. Riceverai presto novità!');
             }, 3000);
         });
 
-        // Gestione FAQ - apertura/chiusura domande
+        backEmail.addEventListener('click', () => {
+            showStep(4);
+        });
+
+        // Confetti Effect
+        function showConfetti() {
+            const confettiContainer = document.getElementById('confetti-container');
+            confettiContainer.style.display = 'block';
+            
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 1 + 's';
+                confettiContainer.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+            
+            setTimeout(() => {
+                confettiContainer.style.display = 'none';
+                confettiContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Gestione FAQ
         const faqItems = document.querySelectorAll('.faq-item');
         
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
             
             question.addEventListener('click', () => {
-                // Chiudi tutte le altre FAQ
                 faqItems.forEach(otherItem => {
                     if (otherItem !== item) {
                         otherItem.classList.remove('active');
                     }
                 });
                 
-                // Apri/chiudi la FAQ corrente
                 item.classList.toggle('active');
             });
         });
@@ -1891,7 +2487,6 @@
         const cardCount = cards.length;
         let cardsPerView = 3;
         
-        // Update cards per view based on screen size
         function updateCardsPerView() {
             if (window.innerWidth <= 768) {
                 cardsPerView = 1;
@@ -1903,7 +2498,6 @@
             updateCarousel();
         }
         
-        // Create dots for carousel
         function createDots() {
             dotsContainer.innerHTML = '';
             const dotCount = Math.ceil(cardCount / cardsPerView);
@@ -1921,26 +2515,22 @@
             }
         }
         
-        // Update carousel position
         function updateCarousel() {
-            const cardWidth = cards[0].offsetWidth + 30; // width + gap
+            const cardWidth = cards[0].offsetWidth + 30;
             const translateX = -currentIndex * cardWidth * cardsPerView;
             track.style.transform = `translateX(${translateX}px)`;
             
-            // Update dots
             const dots = document.querySelectorAll('.carousel-dot');
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === Math.floor(currentIndex / cardsPerView));
             });
         }
         
-        // Go to specific slide
         function goToSlide(index) {
             currentIndex = index * cardsPerView;
             updateCarousel();
         }
         
-        // Next slide
         function nextSlide() {
             if (currentIndex < cardCount - cardsPerView) {
                 currentIndex += cardsPerView;
@@ -1950,7 +2540,6 @@
             updateCarousel();
         }
         
-        // Previous slide
         function prevSlide() {
             if (currentIndex > 0) {
                 currentIndex -= cardsPerView;
@@ -1960,16 +2549,13 @@
             updateCarousel();
         }
         
-        // Auto slide every 5 seconds
         let autoSlideInterval = setInterval(nextSlide, 5000);
         
-        // Reset auto slide interval on interaction
         function resetAutoSlide() {
             clearInterval(autoSlideInterval);
             autoSlideInterval = setInterval(nextSlide, 5000);
         }
         
-        // Event listeners
         prevBtn.addEventListener('click', () => {
             prevSlide();
             resetAutoSlide();
@@ -1980,17 +2566,14 @@
             resetAutoSlide();
         });
         
-        // Initialize carousel
         window.addEventListener('resize', () => {
             updateCardsPerView();
             createDots();
         });
         
-        // Initial setup
         updateCardsPerView();
         createDots();
         
-        // Pause auto slide on hover
         track.addEventListener('mouseenter', () => {
             clearInterval(autoSlideInterval);
         });
@@ -1999,7 +2582,7 @@
             resetAutoSlide();
         });
 
-        // Gestione modals per Privacy, Terms e Contacts
+        // Modals for Privacy, Terms, Contacts
         const privacyModal = document.getElementById('privacy-modal');
         const termsModal = document.getElementById('terms-modal');
         const contactsModal = document.getElementById('contacts-modal');
@@ -2008,11 +2591,14 @@
         const termsLink = document.getElementById('terms-link');
         const contactsLink = document.getElementById('contacts-link');
         
+        const privacyLinkModal = document.getElementById('privacy-link-modal');
+        const termsLinkModal = document.getElementById('terms-link-modal');
+        
         const closePrivacyModal = document.getElementById('close-privacy-modal');
         const closeTermsModal = document.getElementById('close-terms-modal');
         const closeContactsModal = document.getElementById('close-contacts-modal');
         
-        // Apri modals
+        // Open modals from footer
         privacyLink.addEventListener('click', function(e) {
             e.preventDefault();
             privacyModal.style.display = 'flex';
@@ -2031,35 +2617,40 @@
             document.body.style.overflow = 'hidden';
         });
         
-        // Chiudi modals
+        // Open modals from waitlist
+        privacyLinkModal.addEventListener('click', function(e) {
+            e.preventDefault();
+            privacyModal.style.display = 'flex';
+        });
+        
+        termsLinkModal.addEventListener('click', function(e) {
+            e.preventDefault();
+            termsModal.style.display = 'flex';
+        });
+        
+        // Close modals
         closePrivacyModal.addEventListener('click', function() {
             privacyModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
         });
         
         closeTermsModal.addEventListener('click', function() {
             termsModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
         });
         
         closeContactsModal.addEventListener('click', function() {
             contactsModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
         });
         
-        // Chiudi modals cliccando fuori
+        // Close modals when clicking outside
         window.addEventListener('click', function(e) {
             if (e.target === privacyModal) {
                 privacyModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
             }
             if (e.target === termsModal) {
                 termsModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
             }
             if (e.target === contactsModal) {
                 contactsModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
             }
         });
     </script>
