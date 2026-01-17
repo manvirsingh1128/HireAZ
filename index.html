@@ -9,52 +9,79 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Loading Screen */
-        #loading-screen {
+        /* Success Popup */
+        .success-popup {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: white;
-            display: flex;
-            flex-direction: column;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 5000;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            backdrop-filter: blur(8px);
         }
 
-        .loading-logo {
-            height: 60px;
+        .success-popup-content {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 50px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: popupAppear 0.5s ease-out;
+            position: relative;
+        }
+
+        @keyframes popupAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 80px;
+            color: #10B981;
+            margin-bottom: 25px;
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            font-size: 18px;
+            color: #6B7280;
+            line-height: 1.5;
             margin-bottom: 30px;
         }
 
-        .loading-logo img {
-            height: 100%;
-            width: auto;
-        }
-
-        .loading-bar {
-            width: 200px;
-            height: 4px;
-            background: #f0f0f0;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .loading-progress {
-            width: 0%;
-            height: 100%;
+        .success-button {
+            padding: 16px 40px;
             background: #111827;
-            border-radius: 2px;
-            animation: loading 2.5s ease-in-out forwards;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        @keyframes loading {
-            0% { width: 0%; }
-            70% { width: 85%; }
-            100% { width: 100%; }
+        .success-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         /* CSS Reset e variabili */
@@ -86,12 +113,6 @@
             overflow-x: hidden;
             min-height: 100vh;
             font-weight: 400;
-            opacity: 0;
-            animation: fadeIn 0.5s ease 2.5s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
         }
 
         /* Stile per elementi cliccabili */
@@ -796,8 +817,8 @@
         .waitlist-step {
             display: none;
             width: 100%;
-            max-width: 480px;
-            padding: 40px;
+            max-width: 520px;
+            padding: 50px;
             text-align: center;
         }
 
@@ -806,24 +827,28 @@
         }
 
         .waitlist-image {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 30px;
-            border-radius: 20px;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 40px;
+            border-radius: 25px;
             overflow: hidden;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .waitlist-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .waitlist-title {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 600;
             color: white;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             line-height: 1.2;
         }
 
@@ -852,12 +877,12 @@
         .waitlist-continue {
             display: block;
             width: 100%;
-            padding: 18px;
+            padding: 20px;
             background: white;
             color: black;
             border: none;
-            border-radius: 12px;
-            font-size: 18px;
+            border-radius: 14px;
+            font-size: 20px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
@@ -865,8 +890,8 @@
         }
 
         .waitlist-continue:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
         }
 
         /* Question Steps */
@@ -881,30 +906,30 @@
         }
 
         .question-group {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .question-label {
             display: block;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
             color: white;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .option-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
 
         .option-item {
             display: flex;
             align-items: center;
-            padding: 16px;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
         }
@@ -920,11 +945,11 @@
         }
 
         .option-checkbox {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            margin-right: 12px;
+            border-radius: 6px;
+            margin-right: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -939,24 +964,24 @@
         .option-item.selected .option-checkbox::after {
             content: '✓';
             color: black;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
         }
 
         .option-text {
             flex: 1;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .text-input {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             transition: var(--transition);
         }
 
@@ -973,7 +998,7 @@
         .input-hint {
             font-size: 14px;
             color: #9CA3AF;
-            margin-top: 8px;
+            margin-top: 10px;
             display: block;
         }
 
@@ -981,9 +1006,9 @@
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
             cursor: pointer;
             transition: var(--transition);
             margin-right: 15px;
@@ -997,17 +1022,17 @@
             background: white;
             color: black;
             border: none;
-            padding: 12px 32px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
         }
 
         .waitlist-next:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
         }
 
         .waitlist-next:disabled {
@@ -1031,17 +1056,17 @@
         .privacy-check {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            margin: 30px 0;
+            gap: 15px;
+            margin: 40px 0;
             text-align: left;
         }
 
         .privacy-checkbox {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            margin-top: 2px;
+            border-radius: 6px;
+            margin-top: 3px;
             flex-shrink: 0;
             cursor: pointer;
             display: flex;
@@ -1058,13 +1083,13 @@
         .privacy-checkbox.checked::after {
             content: '✓';
             color: black;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
         }
 
         .privacy-text {
             color: #9CA3AF;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.5;
         }
 
@@ -1080,12 +1105,12 @@
 
         .waitlist-submit {
             width: 100%;
-            padding: 18px;
+            padding: 20px;
             background: white;
             color: black;
             border: none;
-            border-radius: 12px;
-            font-size: 18px;
+            border-radius: 14px;
+            font-size: 20px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
@@ -1093,11 +1118,11 @@
         }
 
         .waitlist-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
         }
 
-        /* Success Confetti */
+        /* Confetti Container */
         .confetti-container {
             position: fixed;
             top: 0;
@@ -1111,8 +1136,8 @@
 
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             background: #f00;
             top: -10px;
             animation: confetti-fall 3s linear forwards;
@@ -1133,7 +1158,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
+            z-index: 6000;
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(6px);
@@ -1286,11 +1311,16 @@
             }
             
             .waitlist-step {
-                padding: 30px 20px;
+                padding: 40px 30px;
             }
             
             .waitlist-title {
-                font-size: 28px;
+                font-size: 32px;
+            }
+            
+            .waitlist-image {
+                width: 180px;
+                height: 180px;
             }
         }
 
@@ -1345,19 +1375,30 @@
             }
             
             .waitlist-title {
-                font-size: 24px;
+                font-size: 28px;
             }
             
             .waitlist-subtitle {
                 font-size: 16px;
             }
             
+            .waitlist-image {
+                width: 160px;
+                height: 160px;
+                margin-bottom: 30px;
+            }
+            
             .question-label {
-                font-size: 16px;
+                font-size: 18px;
             }
             
             .option-text {
-                font-size: 14px;
+                font-size: 16px;
+            }
+            
+            .text-input {
+                font-size: 16px;
+                padding: 16px;
             }
         }
 
@@ -1405,6 +1446,18 @@
                 font-size: 22px;
             }
             
+            .success-popup-content {
+                padding: 40px 25px;
+            }
+            
+            .success-title {
+                font-size: 26px;
+            }
+            
+            .success-message {
+                font-size: 16px;
+            }
+            
             .waitlist-navigation {
                 flex-direction: column;
                 gap: 15px;
@@ -1415,17 +1468,30 @@
                 width: 100%;
                 margin: 0;
             }
+            
+            .waitlist-step {
+                padding: 30px 20px;
+            }
+            
+            .waitlist-title {
+                font-size: 24px;
+            }
+            
+            .waitlist-image {
+                width: 140px;
+                height: 140px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loading-logo">
-            <img src="https://i.postimg.cc/6pZg61cS/transparent-Photoroom-(21).png" alt="Logo" />
-        </div>
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
+    <!-- Success Popup -->
+    <div class="success-popup" id="success-popup">
+        <div class="success-popup-content">
+            <div class="success-icon">🎉</div>
+            <h2 class="success-title">Grazie per esserti iscritto!</h2>
+            <p class="success-message">Ti avviseremo quando l'app sarà pubblica e ti daremo le funzionalità che meriti gratis perché ti sei iscritto alla waitlist!</p>
+            <button class="success-button" id="close-success-popup">Fantastico!</button>
         </div>
     </div>
 
@@ -1578,7 +1644,7 @@
                 </div>
                 <div class="faq-answer">
                     <div class="faq-answer-content">
-                        <p>Risposta: "Stiamo lavorando al lancio per [mese]. Chi è in waitlist avrà accesso anticipato e vantaggi esclusivi."</p>
+                        <p>Risposta: "Stiamo lavorando al lancio ma prima di farlo dobbiamo raggiungere l'obiettivo di waitlist. Quando saranno completi la pubblicheremo. Chi è in waitlist avrà accesso anticipato e vantaggi esclusivi."</p>
                     </div>
                 </div>
             </div>
@@ -1933,7 +1999,7 @@
                         <div class="option-text">Altra (specifica):</div>
                     </div>
                 </div>
-                <input type="text" class="text-input" id="altra-lingua" placeholder="Scrivi qui la tua lingua..." style="display: none; margin-top: 15px;">
+                <input type="text" class="text-input" id="altra-lingua" placeholder="Scrivi qui la tua lingua..." style="display: none; margin-top: 20px;">
             </div>
             
             <div class="waitlist-navigation">
@@ -2200,13 +2266,14 @@
     </div>
 
     <script>
-        // Loading Screen
-        setTimeout(() => {
-            document.getElementById('loading-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('loading-screen').style.display = 'none';
-            }, 500);
-        }, 2500);
+        // Success Popup Handler
+        const successPopup = document.getElementById('success-popup');
+        const closeSuccessPopup = document.getElementById('close-success-popup');
+
+        closeSuccessPopup.addEventListener('click', () => {
+            successPopup.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
 
         // Waitlist Data
         let waitlistData = {
@@ -2413,17 +2480,20 @@
             // Show confetti
             showConfetti();
             
-            // Close waitlist after 3 seconds
+            // Close waitlist after 2 seconds
             setTimeout(() => {
                 waitlistOverlay.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 
+                // Show success popup after 500ms
+                setTimeout(() => {
+                    successPopup.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }, 500);
+                
                 // Scroll to top
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Show success message (you can add a toast notification here)
-                alert('Grazie! Sei stato aggiunto alla lista d\'attesa. Riceverai presto novità!');
-            }, 3000);
+            }, 2000);
         });
 
         backEmail.addEventListener('click', () => {
@@ -2582,7 +2652,7 @@
             resetAutoSlide();
         });
 
-        // Modals for Privacy, Terms, Contacts
+        // Modals for Privacy, Terms, Contacts - ALWAYS ON TOP
         const privacyModal = document.getElementById('privacy-modal');
         const termsModal = document.getElementById('terms-modal');
         const contactsModal = document.getElementById('contacts-modal');
@@ -2617,40 +2687,56 @@
             document.body.style.overflow = 'hidden';
         });
         
-        // Open modals from waitlist
+        // Open modals from waitlist - ALWAYS ON TOP
         privacyLinkModal.addEventListener('click', function(e) {
             e.preventDefault();
             privacyModal.style.display = 'flex';
+            privacyModal.style.zIndex = '7000';
         });
         
         termsLinkModal.addEventListener('click', function(e) {
             e.preventDefault();
             termsModal.style.display = 'flex';
+            termsModal.style.zIndex = '7000';
         });
         
         // Close modals
         closePrivacyModal.addEventListener('click', function() {
             privacyModal.style.display = 'none';
+            if (!waitlistOverlay.style.display || waitlistOverlay.style.display === 'none') {
+                document.body.style.overflow = 'auto';
+            }
         });
         
         closeTermsModal.addEventListener('click', function() {
             termsModal.style.display = 'none';
+            if (!waitlistOverlay.style.display || waitlistOverlay.style.display === 'none') {
+                document.body.style.overflow = 'auto';
+            }
         });
         
         closeContactsModal.addEventListener('click', function() {
             contactsModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         });
         
         // Close modals when clicking outside
         window.addEventListener('click', function(e) {
             if (e.target === privacyModal) {
                 privacyModal.style.display = 'none';
+                if (!waitlistOverlay.style.display || waitlistOverlay.style.display === 'none') {
+                    document.body.style.overflow = 'auto';
+                }
             }
             if (e.target === termsModal) {
                 termsModal.style.display = 'none';
+                if (!waitlistOverlay.style.display || waitlistOverlay.style.display === 'none') {
+                    document.body.style.overflow = 'auto';
+                }
             }
             if (e.target === contactsModal) {
                 contactsModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         });
     </script>
