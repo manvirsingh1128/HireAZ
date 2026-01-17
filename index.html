@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colloqui senza più paura | Waitlist</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-logo {
+            height: 60px;
+            margin-bottom: 30px;
+        }
+
+        .loading-logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: #111827;
+            border-radius: 2px;
+            animation: loading 2.5s ease-in-out forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            70% { width: 85%; }
+            100% { width: 100%; }
+        }
+
+        /* CSS Reset e variabili */
+        :root {
+            --text-dark: #111827;
+            --text-gray: #374151;
+            --text-light-gray: #6B7280;
+            --bg-white: #ffffff;
+            --bg-light: #F9FAFB;
+            --accent-black: #111827;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Cursor personalizzato */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="%23111827" opacity="0.8"/></svg>') 12 12, auto;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-weight: 400;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 2.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Stile per elementi cliccabili */
+        a, button, .cta-header, .cta-button, .faq-question, .submit-btn, .testimonial-cta, .final-cta-button, .waitlist-btn {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23111827" opacity="0.9"/><circle cx="12" cy="12" r="5" fill="white"/></svg>') 12 12, pointer !important;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header - Liquid Glass Sticky */
+        header {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 900px;
+            z-index: 1000;
+            padding: 14px 28px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: var(--glass-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .logo {
+            height: 36px;
+            width: auto;
+            transition: var(--transition);
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .cta-header {
+            padding: 9px 22px;
+            background: var(--accent-black);
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            font-size: 15px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .cta-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Hero Section - Above the fold */
+        .hero {
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-white);
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-text {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            letter-spacing: -0.3px;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .social-proof {
+            font-size: 16px;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .waitlist-number {
+            font-weight: 600;
+            color: var(--accent-black);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--accent-black);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.2px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Trusted By Banner */
+        .trusted-section {
+            padding: 80px 0 100px;
+            width: 100%;
+            background-color: var(--bg-light);
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .trusted-title {
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: var(--text-light-gray);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .logo-banner {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logos-track {
+            display: flex;
+            width: calc(160px * 12);
+            animation: scrollLogos 45s linear infinite;
+        }
+
+        .logo-item {
+            width: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 22px;
+            filter: contrast(0.2);
+            transition: var(--transition);
+        }
+
+        .logo-item:hover {
+            filter: contrast(1);
+        }
+
+        .logo-item img {
+            height: 38px;
+            width: auto;
+            max-width: 120px;
+        }
+
+        @keyframes scrollLogos {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-160px * 6));
+            }
+        }
+
+        /* Process Steps Section */
+        .process-section {
+            padding: 60px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .step-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--accent-black);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .step-image {
+            width: 100%;
+            max-width: 220px;
+            margin: 0 auto;
+            border-radius: 35px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 100px 0;
+            background-color: var(--bg-white);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .faq-title {
+            font-size: 36px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        .faq-item {
+            margin-bottom: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background-color: var(--bg-white);
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .faq-question {
+            padding: 22px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: var(--bg-white);
+            transition: var(--transition);
+        }
+
+        .faq-question h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+            flex: 1;
+            text-align: left;
+        }
+
+        .faq-toggle {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-black);
+            color: white;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background-color: var(--bg-light);
+        }
+
+        .faq-answer-content {
+            padding: 0 24px 24px;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* Testimonials Section - Modern Carousel */
+        .testimonials-section {
+            padding: 120px 0 80px;
+            background-color: var(--bg-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-title {
+            font-size: 36px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        .testimonials-carousel {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto 60px;
+            overflow: hidden;
+        }
+
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .testimonial-card {
+            flex: 0 0 calc(33.333% - 20px);
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            min-height: 300px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 0, 0, 0.15);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+        }
+
+        .testimonial-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .testimonial-info {
+            flex: 1;
+        }
+
+        .testimonial-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .testimonial-role {
+            font-size: 14px;
+            color: var(--text-light-gray);
+            font-weight: 500;
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .star-icon {
+            color: var(--accent-black);
+            font-size: 16px;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        .testimonial-text {
+            color: var(--text-gray);
+            line-height: 1.7;
+            font-size: 15px;
+            flex: 1;
+            position: relative;
+            padding-left: 16px;
+            border-left: 2px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .testimonial-text::before {
+            content: "❝";
+            position: absolute;
+            left: -5px;
+            top: -8px;
+            font-size: 24px;
+            color: var(--accent-black);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        /* Carousel Navigation */
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .carousel-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-white);
+            border: 1.5px solid var(--accent-black);
+            color: var(--accent-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .carousel-btn:hover {
+            background: var(--accent-black);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            background: var(--accent-black);
+            transform: scale(1.2);
+        }
+
+        /* Unified CTA Section - Combined Content */
+        .unified-cta-section {
+            padding: 140px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unified-cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .unified-cta-title {
+            font-size: 40px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .unified-cta-subtitle {
+            font-size: 18px;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .unified-cta-text {
+            font-size: 16px;
+            color: var(--text-light-gray);
+            line-height: 1.6;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-style: italic;
+        }
+
+        .unified-cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px 60px;
+            background: transparent;
+            color: var(--accent-black);
+            border: 2px solid var(--accent-black);
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            min-width: 280px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Apple Liquid Glass Effect */
+        .unified-cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent-black);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .unified-cta-button:hover {
+            color: white;
+            border-color: var(--accent-black);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .unified-cta-button:hover::before {
+            opacity: 1;
+        }
+
+        /* Pulsante "pieno" quando non in hover */
+        .unified-cta-button:not(:hover) {
+            background: var(--accent-black);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 100px 0 60px;
+            color: var(--text-light-gray);
+            font-size: 14px;
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .footer-logo {
+            height: 50px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .footer-text {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .footer-cta {
+            margin: 40px 0;
+        }
+
+        .footer-cta-button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--accent-black);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .footer-cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-black);
+        }
+
+        /* New Waitlist Flow */
+        .waitlist-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .waitlist-step {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .waitlist-step.active {
+            display: block;
+        }
+
+        .waitlist-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .waitlist-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .waitlist-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .waitlist-subtitle {
+            font-size: 18px;
+            color: #9CA3AF;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .waitlist-time {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .waitlist-time i {
+            font-size: 16px;
+        }
+
+        .waitlist-continue {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .waitlist-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Question Steps */
+        .waitlist-question {
+            text-align: left;
+        }
+
+        .waitlist-question .waitlist-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+        }
+
+        .question-group {
+            margin-bottom: 30px;
+        }
+
+        .question-label {
+            display: block;
+            font-size: 18px;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .option-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .option-item.selected {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        .option-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .option-item.selected .option-checkbox {
+            background: white;
+            border-color: white;
+        }
+
+        .option-item.selected .option-checkbox::after {
+            content: '✓';
+            color: black;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .option-text {
+            flex: 1;
+            color: white;
+            font-size: 16px;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .text-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-hint {
+            font-size: 14px;
+            color: #9CA3AF;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .waitlist-back {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-right: 15px;
+        }
+
+        .waitlist-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .waitlist-next {
+            background: white;
+            color: black;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .waitlist-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        .waitlist-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .waitlist-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        /* Email Step */
+        .waitlist-email {
+            text-align: center;
+        }
+
+        .privacy-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .privacy-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .privacy-checkbox.checked {
+            background: white;
+            border-color: white;
+        }
+
+        .privacy-checkbox.checked::after {
+            content: '✓';
+            color: black;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .privacy-text {
+            color: #9CA3AF;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .privacy-text a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .privacy-text a:hover {
+            text-decoration: underline;
+        }
+
+        .waitlist-submit {
+            width: 100%;
+            padding: 18px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .waitlist-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Success Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4000;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #f00;
+            top: -10px;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Modals for Privacy, Terms, Contacts */
+        .policy-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+
+        .policy-modal-content {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 48px 40px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+
+        .policy-close-modal {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-light-gray);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .policy-close-modal:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text-dark);
+        }
+
+        .policy-title {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding-right: 40px;
+        }
+
+        .policy-subtitle {
+            font-size: 14px;
+            color: var(--text-light-gray);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .policy-section {
+            margin-bottom: 30px;
+        }
+
+        .policy-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .policy-section p, .policy-section ul {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .policy-section ul {
+            padding-left: 20px;
+        }
+
+        .policy-section li {
+            margin-bottom: 8px;
+        }
+
+        .contacts-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .contacts-list li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            margin-right: 15px;
+            font-size: 20px;
+            color: var(--accent-black);
+            width: 24px;
+            text-align: center;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .contact-value {
+            color: var(--text-gray);
+        }
+
+        .contact-link {
+            color: var(--accent-black);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .testimonial-card {
+                flex: 0 0 calc(50% - 20px);
+            }
+            
+            .testimonials-title {
+                font-size: 32px;
+            }
+            
+            .faq-title {
+                font-size: 32px;
+            }
+            
+            .unified-cta-title {
+                font-size: 36px;
+            }
+            
+            .policy-modal-content {
+                padding: 40px 30px;
+            }
+            
+            .policy-title {
+                font-size: 28px;
+            }
+            
+            .waitlist-step {
+                padding: 30px 20px;
+            }
+            
+            .waitlist-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-card {
+                flex: 0 0 100%;
+            }
+            
+            .testimonials-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+            
+            .faq-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+            
+            .unified-cta-title {
+                font-size: 30px;
+                margin-bottom: 20px;
+            }
+            
+            .unified-cta-subtitle {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+            
+            .unified-cta-text {
+                font-size: 14px;
+                margin-bottom: 40px;
+            }
+            
+            .unified-cta-button {
+                padding: 20px 50px;
+                font-size: 18px;
+                min-width: 240px;
+            }
+            
+            .policy-modal-content {
+                padding: 32px 24px;
+            }
+            
+            .policy-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .waitlist-title {
+                font-size: 24px;
+            }
+            
+            .waitlist-subtitle {
+                font-size: 16px;
+            }
+            
+            .question-label {
+                font-size: 16px;
+            }
+            
+            .option-text {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .testimonials-title {
+                font-size: 24px;
+            }
+            
+            .faq-title {
+                font-size: 24px;
+            }
+            
+            .unified-cta-title {
+                font-size: 26px;
+            }
+            
+            .unified-cta-button {
+                padding: 18px 40px;
+                font-size: 17px;
+                min-width: 200px;
+            }
+            
+            .testimonial-card {
+                padding: 24px;
+            }
+            
+            .testimonial-name {
+                font-size: 16px;
+            }
+            
+            .testimonial-text {
+                font-size: 14px;
+            }
+            
+            .carousel-btn {
+                width: 42px;
+                height: 42px;
+            }
+            
+            .policy-modal-content {
+                padding: 24px 20px;
+            }
+            
+            .policy-title {
+                font-size: 22px;
+            }
+            
+            .waitlist-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .waitlist-back,
+            .waitlist-next {
+                width: 100%;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">
+            <img src="https://i.postimg.cc/6pZg61cS/transparent-Photoroom-(21).png" alt="Logo" />
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="https://i.postimg.cc/6pZg61cS/transparent-Photoroom-(21).png" alt="Logo Colloqui senza più paura" />
+        </div>
+        <a href="#waitlist-form" class="cta-header" id="header-cta">Inizia ora</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Colloqui senza più paura</h1>
+                <p class="hero-subtitle">Allenati con domande vere, arriva preparato al 99,9%</p>
+            </div>
+            
+            <div class="hero-image-container">
+                <div class="hero-image">
+                    <img src="https://i.postimg.cc/7hjSt9pN/Immagine-2026-01-17-095240-Photoroom.png" alt="Preparazione colloquio" />
+                </div>
+                
+                <div class="cta-section">
+                    <p class="social-proof">Join <span class="waitlist-number">158+</span> others on the waitlist.</p>
+                    <button class="cta-button" id="open-waitlist">Iscriviti ora</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By Banner -->
+    <section class="trusted-section">
+        <div class="container">
+            <h3 class="trusted-title">TRUSTED BY</h3>
+            <div class="logo-banner">
+                <div class="logos-track">
+                    <!-- Loghi duplicati per animazione continua -->
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/g06jNdY8/transparent-Photoroom-(14).png" alt="Logo azienda 1" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/QCNXGrrt/transparent-Photoroom-(16).png" alt="Logo azienda 2" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/JzXCFhkm/transparent-Photoroom-(17).png" alt="Logo azienda 3" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/SsDB92w6/transparent-Photoroom-(18).png" alt="Logo azienda 4" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/HkXF2PfP/transparent-Photoroom-(19).png" alt="Logo azienda 5" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/NFZP81DW/transparent-Photoroom-(20).png" alt="Logo azienda 6" />
+                    </div>
+                    <!-- Duplicati per animazione continua -->
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/g06jNdY8/transparent-Photoroom-(14).png" alt="Logo azienda 1" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/QCNXGrrt/transparent-Photoroom-(16).png" alt="Logo azienda 2" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/JzXCFhkm/transparent-Photoroom-(17).png" alt="Logo azienda 3" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/SsDB92w6/transparent-Photoroom-(18).png" alt="Logo azienda 4" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/HkXF2PfP/transparent-Photoroom-(19).png" alt="Logo azienda 5" />
+                    </div>
+                    <div class="logo-item">
+                        <img src="https://i.postimg.cc/NFZP81DW/transparent-Photoroom-(20).png" alt="Logo azienda 6" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 1 -->
+    <section class="process-section" id="step1">
+        <div class="step-container">
+            <div class="step-number">1</div>
+            <h2 class="step-title">Scegli il lavoro che desideri</h2>
+            <div class="step-image">
+                <img src="https://i.postimg.cc/Y9wB6Bnp/transparent-Photoroom-(22).png" alt="Scegli lavoro" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 2 -->
+    <section class="process-section" id="step2">
+        <div class="step-container">
+            <div class="step-number">2</div>
+            <h2 class="step-title">Selezioneremo le domande più adatte per te</h2>
+            <div class="step-image">
+                <img src="https://i.postimg.cc/90nxBGmg/transparent-Photoroom-(23).png" alt="Domande adatte" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 3 -->
+    <section class="process-section" id="step3">
+        <div class="step-container">
+            <div class="step-number">3</div>
+            <h2 class="step-title">Potrai rispondere alle domande sia per iscritto che a voce</h2>
+            <div class="step-image">
+                <img src="https://i.postimg.cc/rmYC6MB8/transparent-Photoroom-(24).png" alt="Rispondi domande" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 4 -->
+    <section class="process-section" id="step4">
+        <div class="step-container">
+            <div class="step-number">4</div>
+            <h2 class="step-title">L'IA ti aiuterà, ti fornirà consigli e ti assegnerà un voto</h2>
+            <div class="step-image">
+                <img src="https://i.postimg.cc/qvXcDn4h/Immagine-2026-01-17-110628.png" alt="IA aiuto e voti" />
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="faq-title">Domande Frequenti</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>1. Come funziona?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "Ti alleni con simulazioni di colloqui realistiche. L'AI ti fa domande personalizzate per il tuo settore, analizza le tue risposte e ti dà feedback immediato per migliorare."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>2. Quando sarà disponibile l'app?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "Stiamo lavorando al lancio per [mese]. Chi è in waitlist avrà accesso anticipato e vantaggi esclusivi."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>3. È gratis?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "I primi iscritti alla waitlist avranno accesso gratuito all'inizio. Dopo il lancio, l'app avrà piani premium ma ci sarà anche la versione gratis."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>4. In che lingue funziona?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "Al lancio supporteremo italiano e inglese. Altre lingue arriveranno presto in base alle richieste."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>5. Devo avere esperienza con l'AI?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "Zero. Basta parlare come faresti in un vero colloquio. L'AI fa tutto il resto."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>6. Posso usarla per colloqui in settori specifici?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "Sì! L'AI personalizza le domande in base al tuo settore: tech, marketing, finanza, vendite e molti altri."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>7. Quanto tempo serve per prepararsi?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "Puoi allenarti anche 15 minuti al giorno. L'AI si adatta al tuo ritmo e ti prepara velocemente."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>8. I miei dati sono al sicuro?</h3>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Risposta: "Sì. Le tue simulazioni e risposte sono private e protette. Zero condivisioni con terzi."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Carousel -->
+    <section class="testimonials-section">
+        <h2 class="testimonials-title">Cosa dicono i nostri utenti</h2>
+        
+        <div class="testimonials-carousel">
+            <div class="testimonials-track" id="testimonials-track">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Alessandro V.</div>
+                            <div class="testimonial-role">Ingegnere</div>
+                        </div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Ho fatto 8 colloqui in 2 mesi, zero offerte. Mi sono allenato 10 giorni con questa app prima del nono colloquio. Mi hanno chiesto di spiegare un progetto complesso in 2 minuti e per la prima volta sono riuscito a farlo senza perdermi. Assunto."
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Francesca L.</div>
+                            <div class="testimonial-role">Consulente</div>
+                        </div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Il colloquio è stato un disastro fino alla domanda finale: 'hai domande per noi?'. Invece delle solite domande banali, ho usato quelle che l'AI mi aveva suggerito. Il recruiter si è illuminato e mi ha detto 'finalmente qualcuno che fa domande intelligenti'. Quella domanda ha salvato tutto."
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Matteo D.</div>
+                            <div class="testimonial-role">Grafico</div>
+                        </div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Soffro d'ansia sociale. Ai colloqui sudavo freddo e balbettavo. Dopo essermi allenato con l'app ogni sera per 3 settimane, è cambiato tutto. Non è che l'ansia sia sparita, ma sapere cosa dire mi ha dato una sicurezza che non avevo mai avuto. Oggi lavoro in una startup che amo."
+                    </div>
+                </div>
+                
+                <!-- Testimonial 4 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Elena S.</div>
+                            <div class="testimonial-role">Accountant</div>
+                        </div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Pensavo di essere preparata. Poi mi hanno chiesto 'dove ti vedi tra 5 anni?' e ho detto la cosa peggiore possibile. Per fortuna era solo una simulazione con l'AI, non un vero colloquio. L'ho rifatta 15 volte finché non ho trovato la risposta giusta. Al colloquio vero? Stessa domanda, risposta perfetta."
+                    </div>
+                </div>
+                
+                <!-- Testimonial 5 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Davide R.</div>
+                            <div class="testimonial-role">Sviluppatore Junior</div>
+                        </div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "Non avevo mai fatto un colloquio in inglese. L'app mi ha fatto allenare sia in italiano che in inglese. Al colloquio per una startup internazionale mi hanno switchato all'inglese a metà intervista. Invece di bloccarmi ero già preparato. Ho iniziato lunedì scorso."
+                    </div>
+                </div>
+                
+                <!-- Testimonial 6 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Giulia M.</div>
+                            <div class="testimonial-role">Marketing Manager</div>
+                        </div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                            <i class="fas fa-star star-icon"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "L'AI mi ha aiutato a preparare risposte strutturate per domande comportamentali. Al colloquio finale con il CEO, le mie risposte erano così chiare e concise che mi ha offerto il lavoro durante l'intervista stessa."
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="carousel-nav">
+            <button class="carousel-btn" id="prev-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="carousel-dots" id="carousel-dots">
+                <!-- Dots will be generated by JavaScript -->
+            </div>
+            
+            <button class="carousel-btn" id="next-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Unified CTA Section -->
+    <section class="unified-cta-section">
+        <div class="unified-cta-container">
+            <h2 class="unified-cta-title">Preparati al colloquio perfetto</h2>
+            <p class="unified-cta-subtitle">Unisciti a centinaia di professionisti che hanno superato l'ansia da colloquio e ottenuto il lavoro dei loro sogni</p>
+            <p class="unified-cta-text">Iscrivendoti alla waitlist puoi proporre la tua lingua e il lavoro di tuo interesse, contribuendo a rendere l'app ancora più personalizzata per te e gli altri utenti.</p>
+            <button class="unified-cta-button" id="unified-cta-button">Unisciti alla Waitlist</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="https://i.postimg.cc/6pZg61cS/transparent-Photoroom-(21).png" alt="Logo Colloqui senza più paura" />
+            </div>
+            <p class="footer-text">© 2026 HireAZ. Tutti i diritti riservati.</p>
+            
+            <div class="footer-cta">
+                <a href="#waitlist-form" class="footer-cta-button" id="footer-cta-button">Unisciti alla Waitlist</a>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#" id="privacy-link">Privacy Policy</a>
+                <a href="#" id="terms-link">Termini di Servizio</a>
+                <a href="#" id="contacts-link">Contatti</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- New Waitlist Flow Overlay -->
+    <div class="waitlist-overlay" id="waitlist-overlay">
+        <!-- Step 1: Intro -->
+        <div class="waitlist-step active" id="step-intro">
+            <div class="waitlist-image">
+                <img src="https://i.postimg.cc/13bL6QTY/transparent-Photoroom-(27).png" alt="HireAZ Waitlist" />
+            </div>
+            <h2 class="waitlist-title">Unisciti alla lista d'attesa di HireAZ</h2>
+            <p class="waitlist-subtitle">per ottenere funzionalità aggiuntive gratuitamente.</p>
+            
+            <div class="waitlist-time">
+                <i class="fas fa-clock"></i>
+                <span>Richiede 30 secondi</span>
+            </div>
+            
+            <button class="waitlist-continue" id="continue-intro">Continua</button>
+        </div>
+
+        <!-- Step 2: Question 1 -->
+        <div class="waitlist-step waitlist-question" id="step-q1">
+            <h2 class="waitlist-title">Qual è la tua situazione attuale?</h2>
+            
+            <div class="question-group">
+                <div class="option-list">
+                    <div class="option-item" data-value="cercando">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Sto cercando lavoro attivamente</div>
+                    </div>
+                    <div class="option-item" data-value="cambiare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Voglio cambiare lavoro presto</div>
+                    </div>
+                    <div class="option-item" data-value="preparare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Mi preparo per il futuro</div>
+                    </div>
+                    <div class="option-item" data-value="aiutare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Aiuto altri a prepararsi (HR/coach)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q1">Indietro</button>
+                <button class="waitlist-next" id="next-q1" disabled>Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Question 2 -->
+        <div class="waitlist-step waitlist-question" id="step-q2">
+            <h2 class="waitlist-title">Qual è la tua sfida più grande nei colloqui?</h2>
+            
+            <div class="question-group">
+                <div class="option-list">
+                    <div class="option-item" data-value="domande">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Non so come rispondere alle domande difficili</div>
+                    </div>
+                    <div class="option-item" data-value="ansia">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Mi blocco per l'ansia</div>
+                    </div>
+                    <div class="option-item" data-value="presentare">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Non so presentare i miei punti di forza</div>
+                    </div>
+                    <div class="option-item" data-value="pratica">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Non ho mai abbastanza pratica</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q2">Indietro</button>
+                <button class="waitlist-next" id="next-q2" disabled>Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Question 3 -->
+        <div class="waitlist-step waitlist-question" id="step-q3">
+            <h2 class="waitlist-title">In che lingua vorresti allenarti?</h2>
+            
+            <div class="question-group">
+                <div class="option-list">
+                    <div class="option-item" data-value="italiano">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Italiano</div>
+                    </div>
+                    <div class="option-item" data-value="inglese">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Inglese</div>
+                    </div>
+                    <div class="option-item" data-value="entrambe">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Entrambe</div>
+                    </div>
+                    <div class="option-item" data-value="altra">
+                        <div class="option-checkbox"></div>
+                        <div class="option-text">Altra (specifica):</div>
+                    </div>
+                </div>
+                <input type="text" class="text-input" id="altra-lingua" placeholder="Scrivi qui la tua lingua..." style="display: none; margin-top: 15px;">
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q3">Indietro</button>
+                <button class="waitlist-next" id="next-q3" disabled>Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Question 4 -->
+        <div class="waitlist-step waitlist-question" id="step-q4">
+            <h2 class="waitlist-title">Per quale lavoro/settore ti stai preparando?</h2>
+            
+            <div class="question-group">
+                <label class="question-label">(opzionale)</label>
+                <input type="text" class="text-input" id="settore-input" placeholder="Es: Marketing Manager, Sviluppatore, Consulente...">
+                <span class="input-hint">Puoi anche lasciare questo campo vuoto</span>
+            </div>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-q4">Indietro</button>
+                <button class="waitlist-next" id="next-q4">Avanti</button>
+            </div>
+        </div>
+
+        <!-- Step 6: Email -->
+        <div class="waitlist-step waitlist-email" id="step-email">
+            <h2 class="waitlist-title">Ultimo passo!</h2>
+            <p class="waitlist-subtitle">Inserisci la tua email per entrare nella lista d'attesa</p>
+            
+            <div class="question-group">
+                <input type="email" class="text-input" id="email-input" placeholder="tua@email.com" style="margin-bottom: 20px;">
+            </div>
+            
+            <div class="privacy-check">
+                <div class="privacy-checkbox" id="privacy-checkbox"></div>
+                <div class="privacy-text">
+                    Accetto la <a href="#" id="privacy-link-modal">Privacy Policy</a> e i <a href="#" id="terms-link-modal">Termini di Servizio</a>. I miei dati saranno trattati in conformità al GDPR.
+                </div>
+            </div>
+            
+            <button class="waitlist-submit" id="submit-waitlist" disabled>Entra in lista</button>
+            
+            <div class="waitlist-navigation">
+                <button class="waitlist-back" id="back-email">Indietro</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="policy-modal" id="privacy-modal">
+        <div class="policy-modal-content">
+            <button class="policy-close-modal" id="close-privacy-modal">&times;</button>
+            <h2 class="policy-title">PRIVACY POLICY</h2>
+            <p class="policy-subtitle">Ultimo aggiornamento: 17 gennaio 2026</p>
+            
+            <div class="policy-section">
+                <h3>1. Introduzione</h3>
+                <p>La presente Privacy Policy descrive come raccogliamo, utilizziamo e proteggiamo i tuoi dati personali quando ti iscrivi alla nostra waitlist.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>2. Titolare del Trattamento</h3>
+                <p>Email: manvir.singh1128@gmail.com</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>3. Dati Raccolti</h3>
+                <p>Raccogliamo i seguenti dati quando ti iscrivi alla waitlist:</p>
+                <ul>
+                    <li>Indirizzo email</li>
+                    <li>Risposte al questionario (situazione lavorativa, sfide, lingua preferita, settore)</li>
+                    <li>Data e ora di iscrizione</li>
+                    <li>Indirizzo IP (per finalità di sicurezza)</li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>4. Finalità del Trattamento</h3>
+                <p>Utilizziamo i tuoi dati per:</p>
+                <ul>
+                    <li>Inviarti aggiornamenti sul lancio dell'app</li>
+                    <li>Contattarti quando l'app sarà disponibile</li>
+                    <li>Migliorare il prodotto in base alle tue esigenze</li>
+                    <li>Statistiche anonime sulla waitlist</li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>5. Base Giuridica</h3>
+                <p>Il trattamento si basa sul tuo consenso esplicito fornito al momento dell'iscrizione.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>6. Conservazione dei Dati</h3>
+                <p>I tuoi dati saranno conservati fino al lancio dell'app e per un massimo di 24 mesi dall'iscrizione, salvo cancellazione anticipata su tua richiesta.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>7. Condivisione dei Dati</h3>
+                <p>Non condividiamo i tuoi dati con terze parti, salvo obbligo di legge.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>8. I Tuoi Diritti</h3>
+                <p>Hai diritto a:</p>
+                <ul>
+                    <li>Accedere ai tuoi dati</li>
+                    <li>Rettificare dati errati</li>
+                    <li>Cancellare i tuoi dati</li>
+                    <li>Opporti al trattamento</li>
+                    <li>Portabilità dei dati</li>
+                </ul>
+                <p>Per esercitare i tuoi diritti, contattaci a: manvir.singh1128@gmail.com</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>9. Sicurezza</h3>
+                <p>Adottiamo misure tecniche e organizzative per proteggere i tuoi dati da accessi non autorizzati.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>10. Modifiche</h3>
+                <p>Ci riserviamo il diritto di aggiornare questa Privacy Policy. Le modifiche saranno pubblicate su questa pagina.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>11. Contatti</h3>
+                <p>Per domande sulla privacy: manvir.singh1128@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div class="policy-modal" id="terms-modal">
+        <div class="policy-modal-content">
+            <button class="policy-close-modal" id="close-terms-modal">&times;</button>
+            <h2 class="policy-title">TERMINI DI SERVIZIO</h2>
+            <p class="policy-subtitle">Ultimo aggiornamento: 17 gennaio 2026</p>
+            
+            <div class="policy-section">
+                <h3>1. Accettazione dei Termini</h3>
+                <p>Iscrivendoti alla waitlist, accetti questi Termini di Servizio.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>2. Descrizione del Servizio</h3>
+                <p>La waitlist ti permette di registrare il tuo interesse per accedere in anteprima alla nostra app di preparazione ai colloqui di lavoro tramite intelligenza artificiale.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>3. Iscrizione alla Waitlist</h3>
+                <ul>
+                    <li>L'iscrizione è gratuita</li>
+                    <li>Devi fornire un indirizzo email valido</li>
+                    <li>Devi avere almeno 16 anni</li>
+                    <li>Un'email = una registrazione</li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>4. Cosa Riceverai</h3>
+                <p>Iscrivendoti riceverai:</p>
+                <ul>
+                    <li>Aggiornamenti sul progetto</li>
+                    <li>Accesso anticipato al lancio</li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>5. Nessuna Garanzia</h3>
+                <p>L'iscrizione alla waitlist NON garantisce:</p>
+                <ul>
+                    <li>Accesso immediato all'app</li>
+                    <li>Caratteristiche specifiche del prodotto finale</li>
+                    <li>Prezzi o condizioni future</li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>6. Cancellazione</h3>
+                <p>Puoi cancellarti dalla waitlist in qualsiasi momento cliccando sul link di disiscrizione nelle email o contattandoci.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>7. Modifiche al Servizio</h3>
+                <p>Ci riserviamo il diritto di:</p>
+                <ul>
+                    <li>Modificare le funzionalità dell'app</li>
+                    <li>Cambiare i tempi di lancio</li>
+                    <li>Chiudere la waitlist</li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>8. Uso Accettabile</h3>
+                <p>NON puoi:</p>
+                <ul>
+                    <li>Fornire informazioni false</li>
+                    <li>Iscriverti multiple volte con email diverse</li>
+                    <li>Usare bot o sistemi automatizzati</li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>9. Proprietà Intellettuale</h3>
+                <p>Tutti i contenuti del sito (logo, testi, design) sono di nostra proprietà.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>10. Contatti</h3>
+                <p>Per domande: manvir.singh1128@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contacts Modal -->
+    <div class="policy-modal" id="contacts-modal">
+        <div class="policy-modal-content">
+            <button class="policy-close-modal" id="close-contacts-modal">&times;</button>
+            <h2 class="policy-title">CONTATTI</h2>
+            
+            <div class="policy-section">
+                <ul class="contacts-list">
+                    <li>
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">
+                                Supporto: <a href="mailto:manvir.singh1128@gmail.com" class="contact-link">manvir.singh1128@gmail.com</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Social Media</div>
+                            <div class="contact-value">
+                                LinkedIn: <a href="https://www.linkedin.com/in/manvir-singh-36b922360/" target="_blank" class="contact-link">Manvir Singh</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div class="contact-icon">⏱️</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Tempi di Risposta</div>
+                            <div class="contact-value">Rispondiamo entro 48 ore lavorative.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="policy-section">
+                <h3>Supporto Waitlist</h3>
+                <p>Per domande specifiche sulla waitlist o per richiedere la cancellazione, scrivici a: <a href="mailto:manvir.singh1128@gmail.com" class="contact-link">manvir.singh1128@gmail.com</a></p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>Proposte e Suggerimenti</h3>
+                <p>Vuoi proporre una nuova lingua o un nuovo settore lavorativo per l'app? Contattaci e ti risponderemo appena possibile.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading Screen
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+            }, 500);
+        }, 2500);
+
+        // Waitlist Data
+        let waitlistData = {
+            situazione: '',
+            sfida: '',
+            lingua: '',
+            altraLingua: '',
+            settore: '',
+            email: ''
+        };
+
+        // Waitlist Navigation
+        const waitlistOverlay = document.getElementById('waitlist-overlay');
+        const steps = document.querySelectorAll('.waitlist-step');
+        let currentStep = 0;
+
+        // Open Waitlist
+        const openWaitlistButtons = [
+            document.getElementById('open-waitlist'),
+            document.getElementById('header-cta'),
+            document.getElementById('unified-cta-button'),
+            document.getElementById('footer-cta-button')
+        ];
+
+        openWaitlistButtons.forEach(button => {
+            if (button) {
+                button.addEventListener('click', (e) => {
+                    if (button.tagName === 'A') e.preventDefault();
+                    waitlistOverlay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    resetWaitlist();
+                });
+            }
+        });
+
+        // Reset Waitlist
+        function resetWaitlist() {
+            currentStep = 0;
+            waitlistData = {
+                situazione: '',
+                sfida: '',
+                lingua: '',
+                altraLingua: '',
+                settore: '',
+                email: ''
+            };
+            
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if (index === 0) step.classList.add('active');
+            });
+            
+            // Reset all selections
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            document.getElementById('altra-lingua').style.display = 'none';
+            document.getElementById('email-input').value = '';
+            document.getElementById('privacy-checkbox').classList.remove('checked');
+            document.getElementById('submit-waitlist').disabled = true;
+        }
+
+        // Step Navigation
+        function showStep(stepIndex) {
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if (index === stepIndex) {
+                    step.classList.add('active');
+                }
+            });
+            currentStep = stepIndex;
+        }
+
+        // Intro Step
+        document.getElementById('continue-intro').addEventListener('click', () => {
+            showStep(1);
+        });
+
+        // Question 1
+        const q1Options = document.querySelectorAll('#step-q1 .option-item');
+        const nextQ1 = document.getElementById('next-q1');
+        const backQ1 = document.getElementById('back-q1');
+
+        q1Options.forEach(option => {
+            option.addEventListener('click', () => {
+                q1Options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                waitlistData.situazione = option.dataset.value;
+                nextQ1.disabled = false;
+            });
+        });
+
+        nextQ1.addEventListener('click', () => {
+            if (waitlistData.situazione) showStep(2);
+        });
+
+        backQ1.addEventListener('click', () => {
+            showStep(0);
+        });
+
+        // Question 2
+        const q2Options = document.querySelectorAll('#step-q2 .option-item');
+        const nextQ2 = document.getElementById('next-q2');
+        const backQ2 = document.getElementById('back-q2');
+
+        q2Options.forEach(option => {
+            option.addEventListener('click', () => {
+                q2Options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                waitlistData.sfida = option.dataset.value;
+                nextQ2.disabled = false;
+            });
+        });
+
+        nextQ2.addEventListener('click', () => {
+            if (waitlistData.sfida) showStep(3);
+        });
+
+        backQ2.addEventListener('click', () => {
+            showStep(1);
+        });
+
+        // Question 3
+        const q3Options = document.querySelectorAll('#step-q3 .option-item');
+        const nextQ3 = document.getElementById('next-q3');
+        const backQ3 = document.getElementById('back-q3');
+        const altraInput = document.getElementById('altra-lingua');
+
+        q3Options.forEach(option => {
+            option.addEventListener('click', () => {
+                q3Options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                waitlistData.lingua = option.dataset.value;
+                
+                if (option.dataset.value === 'altra') {
+                    altraInput.style.display = 'block';
+                    waitlistData.altraLingua = '';
+                    nextQ3.disabled = true;
+                } else {
+                    altraInput.style.display = 'none';
+                    waitlistData.altraLingua = '';
+                    nextQ3.disabled = false;
+                }
+            });
+        });
+
+        altraInput.addEventListener('input', () => {
+            waitlistData.altraLingua = altraInput.value.trim();
+            nextQ3.disabled = !waitlistData.altraLingua;
+        });
+
+        nextQ3.addEventListener('click', () => {
+            if (waitlistData.lingua) showStep(4);
+        });
+
+        backQ3.addEventListener('click', () => {
+            showStep(2);
+        });
+
+        // Question 4
+        const settoreInput = document.getElementById('settore-input');
+        const nextQ4 = document.getElementById('next-q4');
+        const backQ4 = document.getElementById('back-q4');
+
+        settoreInput.addEventListener('input', () => {
+            waitlistData.settore = settoreInput.value.trim();
+        });
+
+        nextQ4.addEventListener('click', () => {
+            showStep(5);
+        });
+
+        backQ4.addEventListener('click', () => {
+            showStep(3);
+        });
+
+        // Email Step
+        const emailInput = document.getElementById('email-input');
+        const privacyCheckbox = document.getElementById('privacy-checkbox');
+        const submitButton = document.getElementById('submit-waitlist');
+        const backEmail = document.getElementById('back-email');
+
+        emailInput.addEventListener('input', validateEmailStep);
+        privacyCheckbox.addEventListener('click', () => {
+            privacyCheckbox.classList.toggle('checked');
+            validateEmailStep();
+        });
+
+        function validateEmailStep() {
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+            const privacyChecked = privacyCheckbox.classList.contains('checked');
+            submitButton.disabled = !(emailValid && privacyChecked);
+        }
+
+        submitButton.addEventListener('click', () => {
+            if (submitButton.disabled) return;
+            
+            waitlistData.email = emailInput.value.trim();
+            
+            // Simulate API call
+            console.log('Waitlist data submitted:', waitlistData);
+            
+            // Show confetti
+            showConfetti();
+            
+            // Close waitlist after 3 seconds
+            setTimeout(() => {
+                waitlistOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Show success message (you can add a toast notification here)
+                alert('Grazie! Sei stato aggiunto alla lista d\'attesa. Riceverai presto novità!');
+            }, 3000);
+        });
+
+        backEmail.addEventListener('click', () => {
+            showStep(4);
+        });
+
+        // Confetti Effect
+        function showConfetti() {
+            const confettiContainer = document.getElementById('confetti-container');
+            confettiContainer.style.display = 'block';
+            
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 1 + 's';
+                confettiContainer.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+            
+            setTimeout(() => {
+                confettiContainer.style.display = 'none';
+                confettiContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Gestione FAQ
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                item.classList.toggle('active');
+            });
+        });
+
+        // Carousel functionality
+        const track = document.getElementById('testimonials-track');
+        const cards = document.querySelectorAll('.testimonial-card');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const dotsContainer = document.getElementById('carousel-dots');
+        
+        let currentIndex = 0;
+        const cardCount = cards.length;
+        let cardsPerView = 3;
+        
+        function updateCardsPerView() {
+            if (window.innerWidth <= 768) {
+                cardsPerView = 1;
+            } else if (window.innerWidth <= 1024) {
+                cardsPerView = 2;
+            } else {
+                cardsPerView = 3;
+            }
+            updateCarousel();
+        }
+        
+        function createDots() {
+            dotsContainer.innerHTML = '';
+            const dotCount = Math.ceil(cardCount / cardsPerView);
+            
+            for (let i = 0; i < dotCount; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('carousel-dot');
+                if (i === 0) dot.classList.add('active');
+                
+                dot.addEventListener('click', () => {
+                    goToSlide(i);
+                });
+                
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        function updateCarousel() {
+            const cardWidth = cards[0].offsetWidth + 30;
+            const translateX = -currentIndex * cardWidth * cardsPerView;
+            track.style.transform = `translateX(${translateX}px)`;
+            
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === Math.floor(currentIndex / cardsPerView));
+            });
+        }
+        
+        function goToSlide(index) {
+            currentIndex = index * cardsPerView;
+            updateCarousel();
+        }
+        
+        function nextSlide() {
+            if (currentIndex < cardCount - cardsPerView) {
+                currentIndex += cardsPerView;
+            } else {
+                currentIndex = 0;
+            }
+            updateCarousel();
+        }
+        
+        function prevSlide() {
+            if (currentIndex > 0) {
+                currentIndex -= cardsPerView;
+            } else {
+                currentIndex = Math.floor((cardCount - 1) / cardsPerView) * cardsPerView;
+            }
+            updateCarousel();
+        }
+        
+        let autoSlideInterval = setInterval(nextSlide, 5000);
+        
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoSlide();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoSlide();
+        });
+        
+        window.addEventListener('resize', () => {
+            updateCardsPerView();
+            createDots();
+        });
+        
+        updateCardsPerView();
+        createDots();
+        
+        track.addEventListener('mouseenter', () => {
+            clearInterval(autoSlideInterval);
+        });
+        
+        track.addEventListener('mouseleave', () => {
+            resetAutoSlide();
+        });
+
+        // Modals for Privacy, Terms, Contacts
+        const privacyModal = document.getElementById('privacy-modal');
+        const termsModal = document.getElementById('terms-modal');
+        const contactsModal = document.getElementById('contacts-modal');
+        
+        const privacyLink = document.getElementById('privacy-link');
+        const termsLink = document.getElementById('terms-link');
+        const contactsLink = document.getElementById('contacts-link');
+        
+        const privacyLinkModal = document.getElementById('privacy-link-modal');
+        const termsLinkModal = document.getElementById('terms-link-modal');
+        
+        const closePrivacyModal = document.getElementById('close-privacy-modal');
+        const closeTermsModal = document.getElementById('close-terms-modal');
+        const closeContactsModal = document.getElementById('close-contacts-modal');
+        
+        // Open modals from footer
+        privacyLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            privacyModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        termsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            termsModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        contactsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            contactsModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Open modals from waitlist
+        privacyLinkModal.addEventListener('click', function(e) {
+            e.preventDefault();
+            privacyModal.style.display = 'flex';
+        });
+        
+        termsLinkModal.addEventListener('click', function(e) {
+            e.preventDefault();
+            termsModal.style.display = 'flex';
+        });
+        
+        // Close modals
+        closePrivacyModal.addEventListener('click', function() {
+            privacyModal.style.display = 'none';
+        });
+        
+        closeTermsModal.addEventListener('click', function() {
+            termsModal.style.display = 'none';
+        });
+        
+        closeContactsModal.addEventListener('click', function() {
+            contactsModal.style.display = 'none';
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === privacyModal) {
+                privacyModal.style.display = 'none';
+            }
+            if (e.target === termsModal) {
+                termsModal.style.display = 'none';
+            }
+            if (e.target === contactsModal) {
+                contactsModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
