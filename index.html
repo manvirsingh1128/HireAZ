@@ -9,81 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Success Popup */
-        .success-popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 5000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(8px);
-        }
-
-        .success-popup-content {
-            background: white;
-            border-radius: 20px;
-            padding: 60px 50px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: popupAppear 0.5s ease-out;
-            position: relative;
-        }
-
-        @keyframes popupAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .success-icon {
-            font-size: 80px;
-            color: #10B981;
-            margin-bottom: 25px;
-        }
-
-        .success-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 15px;
-        }
-
-        .success-message {
-            font-size: 18px;
-            color: #6B7280;
-            line-height: 1.5;
-            margin-bottom: 30px;
-        }
-
-        .success-button {
-            padding: 16px 40px;
-            background: #111827;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .success-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
         /* CSS Reset e variabili */
         :root {
             --text-dark: #111827;
@@ -97,12 +22,12 @@
             --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
-        /* Cursor personalizzato */
+        /* Cursor personalizzato CON BORDO BIANCO */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="%23111827" opacity="0.8"/></svg>') 12 12, auto;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" fill="%23111827" stroke="white" stroke-width="1.5"/></svg>') 13 13, auto;
         }
 
         body {
@@ -115,9 +40,9 @@
             font-weight: 400;
         }
 
-        /* Stile per elementi cliccabili */
+        /* Stile per elementi cliccabili CON BORDO BIANCO */
         a, button, .cta-header, .cta-button, .faq-question, .submit-btn, .testimonial-cta, .final-cta-button, .waitlist-btn {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23111827" opacity="0.9"/><circle cx="12" cy="12" r="5" fill="white"/></svg>') 12 12, pointer !important;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" fill="%23111827" stroke="white" stroke-width="1.5"/><circle cx="13" cy="13" r="5" fill="white"/></svg>') 13 13, pointer !important;
         }
 
         .container {
@@ -826,9 +751,10 @@
             display: block;
         }
 
+        /* IMMAGINE PIÙ GRANDE (da 200px a 250px) */
         .waitlist-image {
-            width: 200px;
-            height: 200px;
+            width: 250px; /* MODIFICATO: da 200px a 250px */
+            height: 250px; /* MODIFICATO: da 200px a 250px */
             margin: 0 auto 40px;
             border-radius: 25px;
             overflow: hidden;
@@ -1048,105 +974,22 @@
             margin-top: 40px;
         }
 
-        /* Email Step */
-        .waitlist-email {
+        /* Beehiiv Form Step - SISTEMATO */
+        .waitlist-beehiiv {
             text-align: center;
         }
 
-        .privacy-check {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            margin: 40px 0;
-            text-align: left;
-        }
-
-        .privacy-checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
-            margin-top: 3px;
-            flex-shrink: 0;
-            cursor: pointer;
+        .beehiiv-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            overflow: visible;
+            min-height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
-        }
-
-        .privacy-checkbox.checked {
-            background: white;
-            border-color: white;
-        }
-
-        .privacy-checkbox.checked::after {
-            content: '✓';
-            color: black;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .privacy-text {
-            color: #9CA3AF;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        .privacy-text a {
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .privacy-text a:hover {
-            text-decoration: underline;
-        }
-
-        .waitlist-submit {
-            width: 100%;
-            padding: 20px;
-            background: white;
-            color: black;
-            border: none;
-            border-radius: 14px;
-            font-size: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 20px;
-        }
-
-        .waitlist-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
-        }
-
-        /* Confetti Container */
-        .confetti-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 4000;
-            display: none;
-        }
-
-        .confetti {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: #f00;
-            top: -10px;
-            animation: confetti-fall 3s linear forwards;
-        }
-
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
         }
 
         /* Modals for Privacy, Terms, Contacts */
@@ -1319,8 +1162,8 @@
             }
             
             .waitlist-image {
-                width: 180px;
-                height: 180px;
+                width: 220px; /* Adattato per tablet */
+                height: 220px;
             }
         }
 
@@ -1383,8 +1226,8 @@
             }
             
             .waitlist-image {
-                width: 160px;
-                height: 160px;
+                width: 200px; /* Adattato per mobile */
+                height: 200px;
                 margin-bottom: 30px;
             }
             
@@ -1446,18 +1289,6 @@
                 font-size: 22px;
             }
             
-            .success-popup-content {
-                padding: 40px 25px;
-            }
-            
-            .success-title {
-                font-size: 26px;
-            }
-            
-            .success-message {
-                font-size: 16px;
-            }
-            
             .waitlist-navigation {
                 flex-direction: column;
                 gap: 15px;
@@ -1478,26 +1309,13 @@
             }
             
             .waitlist-image {
-                width: 140px;
-                height: 140px;
+                width: 180px; /* Adattato per mobile piccolo */
+                height: 180px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Success Popup -->
-    <div class="success-popup" id="success-popup">
-        <div class="success-popup-content">
-            <div class="success-icon">🎉</div>
-            <h2 class="success-title">Grazie per esserti iscritto!</h2>
-            <p class="success-message">Ti avviseremo quando l'app sarà pubblica e ti daremo le funzionalità che meriti gratis perché ti sei iscritto alla waitlist!</p>
-            <button class="success-button" id="close-success-popup">Fantastico!</button>
-        </div>
-    </div>
-
-    <!-- Confetti Container -->
-    <div class="confetti-container" id="confetti-container"></div>
-
     <!-- Header -->
     <header>
         <div class="logo">
@@ -2024,26 +1842,23 @@
             </div>
         </div>
 
-        <!-- Step 6: Email -->
-        <div class="waitlist-step waitlist-email" id="step-email">
+        <!-- Step 6: Beehiiv Form - SISTEMATO -->
+        <div class="waitlist-step waitlist-beehiiv" id="step-beehiiv">
             <h2 class="waitlist-title">Ultimo passo!</h2>
             <p class="waitlist-subtitle">Inserisci la tua email per entrare nella lista d'attesa</p>
             
-            <div class="question-group">
-                <input type="email" class="text-input" id="email-input" placeholder="tua@email.com" style="margin-bottom: 20px;">
+            <div class="beehiiv-container">
+                <!-- Beehiiv Embed Form - VERSIONE CORRETTA -->
+                <iframe src="https://subscribe-forms.beehiiv.com/69cede00-5b3b-4524-bd7b-ebee69d18814" 
+                        class="beehiiv-embed" 
+                        data-test-id="beehiiv-embed" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        style="width: 100%; min-height: 125px; margin: 0; border-radius: 0px; background-color: transparent; border: none; display: block;"></iframe>
             </div>
-            
-            <div class="privacy-check">
-                <div class="privacy-checkbox" id="privacy-checkbox"></div>
-                <div class="privacy-text">
-                    Accetto la <a href="#" id="privacy-link-modal">Privacy Policy</a> e i <a href="#" id="terms-link-modal">Termini di Servizio</a>. I miei dati saranno trattati in conformità al GDPR.
-                </div>
-            </div>
-            
-            <button class="waitlist-submit" id="submit-waitlist" disabled>Entra in lista</button>
             
             <div class="waitlist-navigation">
-                <button class="waitlist-back" id="back-email">Indietro</button>
+                <button class="waitlist-back" id="back-beehiiv">Indietro</button>
             </div>
         </div>
     </div>
@@ -2203,7 +2018,7 @@
                 </ul>
             </div>
             
-            <div class="policy-section">
+            .policy-section {
                 <h3>9. Proprietà Intellettuale</h3>
                 <p>Tutti i contenuti del sito (logo, testi, design) sono di nostra proprietà.</p>
             </div>
@@ -2265,16 +2080,11 @@
         </div>
     </div>
 
+    <!-- Beehiiv Scripts -->
+    <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+    <script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+
     <script>
-        // Success Popup Handler
-        const successPopup = document.getElementById('success-popup');
-        const closeSuccessPopup = document.getElementById('close-success-popup');
-
-        closeSuccessPopup.addEventListener('click', () => {
-            successPopup.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-
         // Waitlist Data
         let waitlistData = {
             situazione: '',
@@ -2332,9 +2142,6 @@
             });
             
             document.getElementById('altra-lingua').style.display = 'none';
-            document.getElementById('email-input').value = '';
-            document.getElementById('privacy-checkbox').classList.remove('checked');
-            document.getElementById('submit-waitlist').disabled = true;
         }
 
         // Step Navigation
@@ -2343,6 +2150,19 @@
                 step.classList.remove('active');
                 if (index === stepIndex) {
                     step.classList.add('active');
+                    
+                    // Quando arriviamo allo step Beehiiv, inviamo i dati a Google Sheets
+                    if (index === 5) { // step-beehiiv è l'index 5
+                        sendToGoogleSheets(waitlistData);
+                        
+                        // Forza il refresh dell'iframe Beehiiv per assicurarsi che si carichi correttamente
+                        setTimeout(() => {
+                            const beehiivIframe = document.querySelector('.beehiiv-embed');
+                            if (beehiivIframe) {
+                                beehiivIframe.src = beehiivIframe.src;
+                            }
+                        }, 100);
+                    }
                 }
             });
             currentStep = stepIndex;
@@ -2451,82 +2271,42 @@
             showStep(3);
         });
 
-        // Email Step
-        const emailInput = document.getElementById('email-input');
-        const privacyCheckbox = document.getElementById('privacy-checkbox');
-        const submitButton = document.getElementById('submit-waitlist');
-        const backEmail = document.getElementById('back-email');
+        // Beehiiv Step
+        const backBeehiiv = document.getElementById('back-beehiiv');
 
-        emailInput.addEventListener('input', validateEmailStep);
-        privacyCheckbox.addEventListener('click', () => {
-            privacyCheckbox.classList.toggle('checked');
-            validateEmailStep();
-        });
-
-        function validateEmailStep() {
-            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
-            const privacyChecked = privacyCheckbox.classList.contains('checked');
-            submitButton.disabled = !(emailValid && privacyChecked);
-        }
-
-        submitButton.addEventListener('click', () => {
-            if (submitButton.disabled) return;
-            
-            waitlistData.email = emailInput.value.trim();
-            
-            // Simulate API call
-            console.log('Waitlist data submitted:', waitlistData);
-            
-            // Show confetti
-            showConfetti();
-            
-            // Close waitlist after 2 seconds
-            setTimeout(() => {
-                waitlistOverlay.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                
-                // Show success popup after 500ms
-                setTimeout(() => {
-                    successPopup.style.display = 'flex';
-                    document.body.style.overflow = 'hidden';
-                }, 500);
-                
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 2000);
-        });
-
-        backEmail.addEventListener('click', () => {
+        backBeehiiv.addEventListener('click', () => {
             showStep(4);
         });
 
-        // Confetti Effect
-        function showConfetti() {
-            const confettiContainer = document.getElementById('confetti-container');
-            confettiContainer.style.display = 'block';
+        // Google Sheets Integration
+        function sendToGoogleSheets(data) {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyXUStUU4-AnyeAXA2uzm1N9MHZlA-M5vIANImSea3cfZaGR53dfAryiDCcVUBJxQ0D/exec';
             
-            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            // Formatta i dati per il Google Sheet
+            const formData = new FormData();
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('situazione', data.situazione);
+            formData.append('sfida', data.sfida);
+            formData.append('lingua', data.lingua);
+            formData.append('altraLingua', data.altraLingua || '');
+            formData.append('settore', data.settore || '');
+            formData.append('email', 'collected_via_beehiiv');
             
-            for (let i = 0; i < 150; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.width = Math.random() * 10 + 5 + 'px';
-                confetti.style.height = Math.random() * 10 + 5 + 'px';
-                confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
-                confetti.style.animationDelay = Math.random() * 1 + 's';
-                confettiContainer.appendChild(confetti);
-                
-                setTimeout(() => {
-                    confetti.remove();
-                }, 5000);
-            }
-            
-            setTimeout(() => {
-                confettiContainer.style.display = 'none';
-                confettiContainer.innerHTML = '';
-            }, 5000);
+            // Invia i dati a Google Sheets
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('Dati inviati a Google Sheets:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Risposta da Google Sheets:', data);
+            })
+            .catch(error => {
+                console.error('Error sending to Google Sheets:', error);
+            });
         }
 
         // Gestione FAQ
@@ -2652,7 +2432,7 @@
             resetAutoSlide();
         });
 
-        // Modals for Privacy, Terms, Contacts - ALWAYS ON TOP
+        // Modals for Privacy, Terms, Contacts
         const privacyModal = document.getElementById('privacy-modal');
         const termsModal = document.getElementById('terms-modal');
         const contactsModal = document.getElementById('contacts-modal');
@@ -2660,9 +2440,6 @@
         const privacyLink = document.getElementById('privacy-link');
         const termsLink = document.getElementById('terms-link');
         const contactsLink = document.getElementById('contacts-link');
-        
-        const privacyLinkModal = document.getElementById('privacy-link-modal');
-        const termsLinkModal = document.getElementById('terms-link-modal');
         
         const closePrivacyModal = document.getElementById('close-privacy-modal');
         const closeTermsModal = document.getElementById('close-terms-modal');
@@ -2685,19 +2462,6 @@
             e.preventDefault();
             contactsModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-        });
-        
-        // Open modals from waitlist - ALWAYS ON TOP
-        privacyLinkModal.addEventListener('click', function(e) {
-            e.preventDefault();
-            privacyModal.style.display = 'flex';
-            privacyModal.style.zIndex = '7000';
-        });
-        
-        termsLinkModal.addEventListener('click', function(e) {
-            e.preventDefault();
-            termsModal.style.display = 'flex';
-            termsModal.style.zIndex = '7000';
         });
         
         // Close modals
@@ -2739,6 +2503,34 @@
                 document.body.style.overflow = 'auto';
             }
         });
+        
+        // Aggiunta: Auto-close waitlist quando l'utente inserisce l'email in Beehiiv
+        // Questo è un workaround poiché Beehiiv non fornisce una callback diretta
+        setInterval(() => {
+            // Controlla se siamo nello step Beehiiv
+            if (currentStep === 5 && document.querySelector('.waitlist-step.active').id === 'step-beehiiv') {
+                // Controlla se l'iframe è visibile e ha contenuto
+                const beehiivIframe = document.querySelector('.beehiiv-embed');
+                if (beehiivIframe) {
+                    try {
+                        // Questo è un tentativo di rilevare se l'utente ha interagito con il modulo
+                        // Nota: a causa delle policy di sicurezza dei browser, non possiamo accedere al contenuto dell'iframe
+                        // Quindi usiamo un timeout come fallback
+                        setTimeout(() => {
+                            // Dopo 10 secondi nello step Beehiiv, assumiamo che l'utente abbia inserito l'email
+                            // e chiudiamo automaticamente il waitlist
+                            if (currentStep === 5) {
+                                waitlistOverlay.style.display = 'none';
+                                document.body.style.overflow = 'auto';
+                                alert('Grazie per esserti iscritto! Riceverai presto aggiornamenti via email.');
+                            }
+                        }, 10000); // 10 secondi
+                    } catch (e) {
+                        console.log('Non è possibile accedere al contenuto di Beehiiv per ragioni di sicurezza');
+                    }
+                }
+            }
+        }, 1000);
     </script>
 </body>
 </html>
